@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slide</title>
+</head>
+<body>
+<style>
+    .conteiner {
+        width: 500px;
+        height: 500px;
+        margin: 20px auto;
+    }
+    .slide {
+        width: 400px;
+        height: 400px;
+        margin: 30px auto 10px;
+        border: 8px solid #0000CD;
+        overflow: hidden;
+        position: relative;
+    }
+    .slide__link {
+        padding:0;
+        margin:0;
+        position:absolute;
+        top:0;
+        left:0;
+    }
+</style>
+
+    <div class="conteiner">
+        <div class="slide">
+            <ul class="slide__link">
+                <li>1-й слайд</li>
+                <li>2-й слайд</li>
+                <li>3-й слайд</li>
+                <li>4-й слайд</li>
+            </ul>
+        </div>
+        <div class="buttonGrup">
+            <button class="prev" data-button="prev">prev</button>
+            <button class="next" data-button="next">next</button>
+        </div>
+    </div>
+
+
+
+<script>
+
+
+    var div = document.querySelector(".slide");// елемент с классом слайд
+        btnGroup = document.querySelector(".buttonGrup"), // получсили див в котором 2 кнопки
+        link = div.firstElementChild, //получили первого ре5бенка эелемента с классом слайд( получили ул)
+        item = link.children.length, // коилчество детей ул-а
+        itemChild = link.children, //получиои всех детей  ул-а
+        widthDiv = div.clientWidth, //получили ширину главного элемента (дива с классом слайд)
+        heightDiv = div.clientHeight,// ---  ширину
+        maxUl = widthDiv * item, // вся ширина ул-а( динамическая, учитывая изменение количества детей)
+        widthMaxUl = widthDiv * (item+1); //ширина с зарезервированым доп местом под клонированую лишку
+       
+
+        btnGroup.addEventListener("click", btnGroupClick);// добавили событие и функцию, которая описывает его
+        btnGroup.addEventListener("click", btnGroupClicks);// 
+
+    styleElem();
+    
+        function btnGroupClick(e) { // функция отслеживает событие
+            var target = e && e.target || e.srcElement, // проверка. если событие и оно кликуто и то же  самое только для IE
+                dataButton = target.getAttribute('data-button'); // переменнная получает значение кликнутой кнопки у которой есть атрибут  data-button
+                    
+                if (!dataButton) return; // если ничего не кликнуто - то ничего не происходит
+
+                if(dataButton == "next"){ // если  переменная равна кнопке со значением атрибута - некст, то
+                   var linkFirst = link.firstElementChild; // получаем первый элемент у УЛ-а
+                        clonic =  linkFirst.cloneNode(true); // в созданую переменную  клонируем первый полученый элемент
+                      link.appendChild(clonic); // в конец списка добавляем склонированый первый элемент
+                      link.style.left = "-"+widthDiv+"px"; // сдвмигаем ул на ширину окна ( главного дива)
+                      linkFirst.parentNode.removeChild(linkFirst); // на первом ребенке получаем родителя и на этом родителе удаляем этого первого ребенка
+                      link.style.left = "0px"; // т.к. у нас удалился первый элемент и образовалась дырка, то мы переписываем позицию первого элемента на 0
+                }
+            
+        };
+
+// function btnGroupClick(e) { // функция отслеживает событие
+//             var target = e && e.target || e.srcElement, // проверка. если событие и оно кликуто и то же  самое только для IE
+//                 dataButton = target.getAttribute('data-button'); // переменнная получает значение кликнутой кнопки у которой есть атрибут  data-button
+                    
+//                 if (!dataButton) return; // если ничего не кликнуто - то ничего не происходит
+
+//                 if(dataButton == "prev"){ // если  переменная равна кнопке со значением атрибута - прев, то
+//                    var linkLast = link.lastElementChild; // получаем последний элемент у УЛ-а
+//                         clon =  linkLast.cloneNode(true); // в созданую переменную  клонируем последний полученый элемент
+//                       link.insertBefore(clon); // в начале списка добавляем склонированый первый элемент
+//                       link.style.right = "-"+widthDiv+"px"; // сдвмигаем ул на ширину окна ( главного дива)
+//                       linkLast.parentNode.removeChild(linkLast); // на первом ребенке получаем родителя и на этом родителе удаляем этого первого ребенка
+//                       link.style.right = "0px"; // т.к. у нас удалился первый элемент и образовалась дырка, то мы переписываем позицию первого элемента на 0
+//                 }
+            
+//         };
+
+
+
+
+
+    function styleElem (){
+        for (var i = 0; i <= item-1; i++){
+           itemChild[i].style.cssText = "width:"+widthDiv+"px;height:"+heightDiv+"px;font-size:40px;display: inline-block;                                            margin:0 -4.5px 0 0;list-style-type: none;background-color:#D3D3D3;padding:110px 0 0;                                                text-align: center;"
+        }
+        link.style.cssText = "width:"+maxUl+"px;height:"+heightDiv+"px;"
+    }
+
+
+
+</script>
+
+</body>
+</html>
